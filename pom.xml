@@ -28,9 +28,14 @@
 
 	<properties>
 		<support-domain.version>1.0.0-SNAPSHOT</support-domain.version>
+		<core-exception.version>1.0.0-SNAPSHOT</core-exception.version>
+		<core-test.version>1.0.0-SNAPSHOT</core-test.version>
+		<spring.cloud.version>Brixton.SR5</spring.cloud.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<junit.version>4.12</junit.version>
+		<mockito.version>1.10.19</mockito.version>
 		<jackson.version>2.7.7</jackson.version>
+		<resteasy.version>3.0.13.Final</resteasy.version>
 		<spring-web.version>4.2.7.RELEASE</spring-web.version>
 		<maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,6 +43,7 @@
 		<java.version>1.8</java.version>
 		<nexusproxy>https://nexus.edgexfoundry.org</nexusproxy>
 		<repobasepath>content/repositories</repobasepath>
+		<assembley-plugin.version>2.5.5</assembley-plugin.version>
 	</properties>
 
 	<distributionManagement>
@@ -50,10 +56,40 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-commons</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.edgexfoundry</groupId>
+			<artifactId>core-test</artifactId>
+			<version>${core-test.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${resteasy.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.edgexfoundry</groupId>
+			<artifactId>core-exception</artifactId>
+			<version>${core-exception.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.edgexfoundry</groupId>
@@ -85,7 +121,44 @@
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring.cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>RequiresNone</id>
+			<properties>
+				<testcase.groups>org.edgexfoundry.test.category.RequiresNone</testcase.groups>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>Requires</id>
+			<properties>
+				<testcase.groups>org.edgexfoundry.test.category.RequiresMongo</testcase.groups>
+				<testcase.groups>org.edgexfoundry.test.category.RequiresSupportLoggingRunning</testcase.groups>
+			</properties>
+		</profile>
+	</profiles>
 
 	<build>
 		<plugins>
@@ -98,6 +171,36 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.google.MainClass</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<groups>${testcase.groups}</groups>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

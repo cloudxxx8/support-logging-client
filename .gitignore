@@ -8,6 +8,9 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
+logs/**
+logs/**/*
+*.log
 local.properties
 .loadpath
 .classpath

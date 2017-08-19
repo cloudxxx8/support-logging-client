@@ -15,30 +15,36 @@
  * @author: Jude Hung, Dell
  * @version: 1.0.0
  *******************************************************************************/
+
 package org.edgexfoundry.support.logging.client;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import static org.junit.Assert.assertTrue;
 
-public class EdgeXLoggerFactory {
+import org.edgexfoundry.test.category.RequiresNone;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-  private EdgeXLoggerFactory() {}
+@Category({RequiresNone.class})
+public class EdgeXLoggerFactoryTest {
 
-  private static ConcurrentMap<String, EdgeXLogger> loggerMap = new ConcurrentHashMap<>();
-
-  public static EdgeXLogger getEdgeXLogger(String name) {
-    EdgeXLogger edgeXLogger = loggerMap.get(name);
-    if (null != edgeXLogger) {
-      return edgeXLogger;
-    } else {
-      edgeXLogger = new EdgeXLogger(name);
-      EdgeXLogger oldInstance = loggerMap.putIfAbsent(name, edgeXLogger);
-      return oldInstance == null ? edgeXLogger : oldInstance;
-    }
+  @Test
+  public void getEdgeXLogger() {
+    EdgeXLogger logger = EdgeXLoggerFactory.getEdgeXLogger("foo");
+    assertTrue("Logger is null after get", logger != null);
   }
 
-  public static EdgeXLogger getEdgeXLogger(Class<?> clazz) {
-    return getEdgeXLogger(clazz.getName());
+  @Test
+  public void getEdgeXLoggerAfterCreated() {
+    EdgeXLogger logger = EdgeXLoggerFactory.getEdgeXLogger("foo");
+    assertTrue("Logger is null after get", logger != null);
+    logger = EdgeXLoggerFactory.getEdgeXLogger("foo");
+    assertTrue("Logger is null after get", logger != null);
   }
+
+  @Test
+  public void testGetEdgeXLogger() {
+    EdgeXLoggerFactory.getEdgeXLogger(EdgeXLoggerFactoryTest.class);
+  }
+
 
 }
