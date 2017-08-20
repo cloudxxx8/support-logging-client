@@ -30,7 +30,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 
 public abstract class ConsulDiscoveryClientTemplate {
 
-  public static final String APP_ID = "edgex-support-logging";
+  public static final String APP_ID = "support-logging";
   private static boolean isCacheDiscoveryResult = false;
 
   @Value("${client.is-cache-discovery-result:false}")
@@ -57,7 +57,7 @@ public abstract class ConsulDiscoveryClientTemplate {
     }
 
     List<ServiceInstance> list = discoveryClient.getInstances(APP_ID);
-    if (list != null && list.isEmpty()) {
+    if (list != null && !list.isEmpty()) {
       URI uri = list.get(0).getUri();
       if (uri != null) {
         result = uri.toString();

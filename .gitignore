@@ -17,6 +17,7 @@ local.properties
 .factorypath
 .settings/
 .springBeans
+dependency-reduced-pom.xml
 
 # External tool builders
 .externalToolBuilders/
