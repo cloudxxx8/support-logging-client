@@ -8,12 +8,16 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
+logs/**
+logs/**/*
+*.log
 local.properties
 .loadpath
 .classpath
 .factorypath
 .settings/
 .springBeans
+dependency-reduced-pom.xml
 
 # External tool builders
 .externalToolBuilders/
