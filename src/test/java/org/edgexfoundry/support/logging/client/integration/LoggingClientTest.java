@@ -15,6 +15,7 @@
  * @author: Jude Hung, Dell
  * @version: 1.0.0
  *******************************************************************************/
+
 package org.edgexfoundry.support.logging.client.integration;
 
 import static org.junit.Assert.assertEquals;

@@ -15,6 +15,7 @@
  * @author: Jude Hung, Dell
  * @version: 1.0.0
  *******************************************************************************/
+
 package org.edgexfoundry.support.logging.client;
 
 import org.edgexfoundry.support.domain.logging.LogEntry;
@@ -50,137 +51,13 @@ public class EdgeXLogger {
     return EdgeXLoggerPropertyHolder.isRemoteLoggingEnabled();
   }
 
-  private void log(Level logLevel, String msg, String... labels) {
-    boolean loggable = false;
-    switch (logLevel) {
-      case TRACE:
-        loggable = slf4jLogger.isTraceEnabled();
-        break;
-      case DEBUG:
-        loggable = slf4jLogger.isDebugEnabled();
-        break;
-      case WARN:
-        loggable = slf4jLogger.isWarnEnabled();
-        break;
-      case INFO:
-        loggable = slf4jLogger.isInfoEnabled();
-        break;
-      case ERROR:
-        loggable = slf4jLogger.isErrorEnabled();
-        break;
-    }
-    if (loggable && isRemoteLoggingEnabled()) {
-      LogEntry logEntry = buildLogEntry(logLevel, msg, labels);
-      invokeAsyncRestLogging(logEntry);
-    }
-  }
-
   public void debug(String msg, String... labels) {
     slf4jLogger.debug(msg);
     log(Level.DEBUG, msg, labels);
   }
 
-  public void error(String msg, String... labels) {
-    slf4jLogger.error(msg);
-    log(Level.ERROR, msg, labels);
-  }
-
-  public void trace(String msg, String... labels) {
-    slf4jLogger.trace(msg);
-    log(Level.TRACE, msg, labels);
-  }
-
-  public void info(String msg, String... labels) {
-    slf4jLogger.info(msg);
-    log(Level.INFO, msg, labels);
-  }
-
-  public void warn(String msg, String... labels) {
-    slf4jLogger.warn(msg);
-    log(Level.WARN, msg, labels);
-  }
-
   public void debug(String msg) {
     debug(msg, (String[]) null);
-  }
-
-  public void error(String msg) {
-    error(msg, (String[]) null);
-  }
-
-  public void trace(String msg) {
-    trace(msg, (String[]) null);
-  }
-
-  public void info(String msg) {
-    info(msg, (String[]) null);
-  }
-
-  public void warn(String msg) {
-    warn(msg, (String[]) null);
-  }
-
-  // following methods are simply offered by org.slf4j.Logger and would delegate to slf4jLoffer
-  // internally.
-  public String getName() {
-    return slf4jLogger.getName();
-  }
-
-  public boolean isTraceEnabled() {
-    return slf4jLogger.isTraceEnabled();
-  }
-
-  public void trace(String format, Object arg) {
-    slf4jLogger.trace(format, arg);
-    log(Level.TRACE, getFormattedMessage(format, arg), (String[]) null);
-  }
-
-  public void trace(String format, Object arg1, Object arg2) {
-    slf4jLogger.trace(format, arg1, arg2);
-    log(Level.TRACE, getFormattedMessage(format, arg1, arg2), (String[]) null);
-  }
-
-  public void trace(String format, Object... arguments) {
-    slf4jLogger.trace(format, arguments);
-    log(Level.TRACE, getFormattedMessage(format, arguments), (String[]) null);
-  }
-
-  public void trace(String msg, Throwable t) {
-    slf4jLogger.trace(msg, t);
-    log(Level.TRACE, msg, (String[]) null);
-  }
-
-  public boolean isTraceEnabled(Marker marker) {
-    return slf4jLogger.isTraceEnabled(marker);
-  }
-
-  public void trace(Marker marker, String msg) {
-    slf4jLogger.trace(marker, msg);
-    log(Level.TRACE, msg, (String[]) null);
-  }
-
-  public void trace(Marker marker, String format, Object arg) {
-    slf4jLogger.trace(marker, format, arg);
-    log(Level.TRACE, getFormattedMessage(format, arg), (String[]) null);
-  }
-
-  public void trace(Marker marker, String format, Object arg1, Object arg2) {
-    slf4jLogger.trace(marker, format, arg1, arg2);
-    log(Level.TRACE, getFormattedMessage(format, arg1, arg2), (String[]) null);
-  }
-
-  public void trace(Marker marker, String format, Object... arguments) {
-    slf4jLogger.trace(marker, format, arguments);
-    log(Level.TRACE, getFormattedMessage(format, arguments), (String[]) null);
-  }
-
-  public void trace(Marker marker, String msg, Throwable t) {
-    slf4jLogger.trace(marker, msg, t);
-    log(Level.TRACE, msg, (String[]) null);
-  }
-
-  public boolean isDebugEnabled() {
-    return slf4jLogger.isDebugEnabled();
   }
 
   public void debug(String format, Object arg) {
@@ -201,10 +78,6 @@ public class EdgeXLogger {
   public void debug(String msg, Throwable t) {
     slf4jLogger.debug(msg, t);
     log(Level.DEBUG, msg, (String[]) null);
-  }
-
-  public boolean isDebugEnabled(Marker marker) {
-    return slf4jLogger.isDebugEnabled(marker);
   }
 
   public void debug(Marker marker, String msg) {
@@ -232,8 +105,121 @@ public class EdgeXLogger {
     log(Level.DEBUG, msg, (String[]) null);
   }
 
-  public boolean isInfoEnabled() {
-    return slf4jLogger.isInfoEnabled();
+  public void error(String msg, String... labels) {
+    slf4jLogger.error(msg);
+    log(Level.ERROR, msg, labels);
+  }
+
+  public void error(String msg) {
+    error(msg, (String[]) null);
+  }
+
+  public void error(String format, Object arg) {
+    slf4jLogger.error(format, arg);
+    log(Level.ERROR, getFormattedMessage(format, arg), (String[]) null);
+  }
+
+  public void error(String format, Object arg1, Object arg2) {
+    slf4jLogger.error(format, arg1, arg2);
+    log(Level.ERROR, getFormattedMessage(format, arg1, arg2), (String[]) null);
+  }
+
+  public void error(String format, Object... arguments) {
+    slf4jLogger.error(format, arguments);
+    log(Level.ERROR, getFormattedMessage(format, arguments), (String[]) null);
+  }
+
+  public void error(String msg, Throwable t) {
+    slf4jLogger.error(msg, t);
+    log(Level.ERROR, msg, (String[]) null);
+  }
+
+  public void error(Marker marker, String msg) {
+    slf4jLogger.error(marker, msg);
+    log(Level.ERROR, msg, (String[]) null);
+  }
+
+  public void error(Marker marker, String format, Object arg) {
+    slf4jLogger.error(marker, format, arg);
+    log(Level.ERROR, getFormattedMessage(format, arg), (String[]) null);
+  }
+
+  public void error(Marker marker, String format, Object arg1, Object arg2) {
+    slf4jLogger.error(marker, format, arg1, arg2);
+    log(Level.ERROR, getFormattedMessage(format, arg1, arg2), (String[]) null);
+  }
+
+  public void error(Marker marker, String format, Object... arguments) {
+    slf4jLogger.error(marker, format, arguments);
+    log(Level.ERROR, getFormattedMessage(format, arguments), (String[]) null);
+  }
+
+  public void error(Marker marker, String msg, Throwable t) {
+    slf4jLogger.error(marker, msg, t);
+    log(Level.ERROR, msg, (String[]) null);
+  }
+
+  public void trace(String msg, String... labels) {
+    slf4jLogger.trace(msg);
+    log(Level.TRACE, msg, labels);
+  }
+
+  public void trace(String msg) {
+    trace(msg, (String[]) null);
+  }
+
+  public void trace(String format, Object arg) {
+    slf4jLogger.trace(format, arg);
+    log(Level.TRACE, getFormattedMessage(format, arg), (String[]) null);
+  }
+
+  public void trace(String format, Object arg1, Object arg2) {
+    slf4jLogger.trace(format, arg1, arg2);
+    log(Level.TRACE, getFormattedMessage(format, arg1, arg2), (String[]) null);
+  }
+
+  public void trace(String format, Object... arguments) {
+    slf4jLogger.trace(format, arguments);
+    log(Level.TRACE, getFormattedMessage(format, arguments), (String[]) null);
+  }
+
+  public void trace(String msg, Throwable t) {
+    slf4jLogger.trace(msg, t);
+    log(Level.TRACE, msg, (String[]) null);
+  }
+
+  public void trace(Marker marker, String msg) {
+    slf4jLogger.trace(marker, msg);
+    log(Level.TRACE, msg, (String[]) null);
+  }
+
+  public void trace(Marker marker, String format, Object arg) {
+    slf4jLogger.trace(marker, format, arg);
+    log(Level.TRACE, getFormattedMessage(format, arg), (String[]) null);
+  }
+
+  public void trace(Marker marker, String format, Object arg1, Object arg2) {
+    slf4jLogger.trace(marker, format, arg1, arg2);
+    log(Level.TRACE, getFormattedMessage(format, arg1, arg2), (String[]) null);
+  }
+
+  public void trace(Marker marker, String format, Object... arguments) {
+    slf4jLogger.trace(marker, format, arguments);
+    log(Level.TRACE, getFormattedMessage(format, arguments), (String[]) null);
+  }
+
+  public void trace(Marker marker, String msg, Throwable t) {
+    slf4jLogger.trace(marker, msg, t);
+    log(Level.TRACE, msg, (String[]) null);
+  }
+
+  public void info(String msg, String... labels) {
+    slf4jLogger.info(msg);
+    log(Level.INFO, msg, labels);
+  }
+
+  public void info(String msg) {
+    info(msg, (String[]) null);
   }
 
   public void info(String format, Object arg) {
@@ -254,10 +240,6 @@ public class EdgeXLogger {
   public void info(String msg, Throwable t) {
     slf4jLogger.info(msg, t);
     log(Level.INFO, msg, (String[]) null);
-  }
-
-  public boolean isInfoEnabled(Marker marker) {
-    return slf4jLogger.isInfoEnabled(marker);
   }
 
   public void info(Marker marker, String msg) {
@@ -285,8 +267,13 @@ public class EdgeXLogger {
     log(Level.INFO, msg, (String[]) null);
   }
 
-  public boolean isWarnEnabled() {
-    return slf4jLogger.isWarnEnabled();
+  public void warn(String msg, String... labels) {
+    slf4jLogger.warn(msg);
+    log(Level.WARN, msg, labels);
+  }
+
+  public void warn(String msg) {
+    warn(msg, (String[]) null);
   }
 
   public void warn(String format, Object arg) {
@@ -307,10 +294,6 @@ public class EdgeXLogger {
   public void warn(String msg, Throwable t) {
     slf4jLogger.warn(msg, t);
     log(Level.WARN, msg, (String[]) null);
-  }
-
-  public boolean isWarnEnabled(Marker marker) {
-    return slf4jLogger.isWarnEnabled(marker);
   }
 
   public void warn(Marker marker, String msg) {
@@ -338,59 +321,79 @@ public class EdgeXLogger {
     log(Level.WARN, msg, (String[]) null);
   }
 
+  // following methods are simply offered by org.slf4j.Logger and would delegate to slf4jLoffer
+  // internally.
+  public String getName() {
+    return slf4jLogger.getName();
+  }
+
+  public boolean isTraceEnabled() {
+    return slf4jLogger.isTraceEnabled();
+  }
+
+  public boolean isTraceEnabled(Marker marker) {
+    return slf4jLogger.isTraceEnabled(marker);
+  }
+
+  public boolean isDebugEnabled() {
+    return slf4jLogger.isDebugEnabled();
+  }
+
+  public boolean isDebugEnabled(Marker marker) {
+    return slf4jLogger.isDebugEnabled(marker);
+  }
+
+  public boolean isInfoEnabled() {
+    return slf4jLogger.isInfoEnabled();
+  }
+
+  public boolean isInfoEnabled(Marker marker) {
+    return slf4jLogger.isInfoEnabled(marker);
+  }
+
+  public boolean isWarnEnabled() {
+    return slf4jLogger.isWarnEnabled();
+  }
+
+  public boolean isWarnEnabled(Marker marker) {
+    return slf4jLogger.isWarnEnabled(marker);
+  }
+
   public boolean isErrorEnabled() {
     return slf4jLogger.isErrorEnabled();
-  }
-
-  public void error(String format, Object arg) {
-    slf4jLogger.error(format, arg);
-    log(Level.ERROR, getFormattedMessage(format, arg), (String[]) null);
-  }
-
-  public void error(String format, Object arg1, Object arg2) {
-    slf4jLogger.error(format, arg1, arg2);
-    log(Level.ERROR, getFormattedMessage(format, arg1, arg2), (String[]) null);
-  }
-
-  public void error(String format, Object... arguments) {
-    slf4jLogger.error(format, arguments);
-    log(Level.ERROR, getFormattedMessage(format, arguments), (String[]) null);
-  }
-
-  public void error(String msg, Throwable t) {
-    slf4jLogger.error(msg, t);
-    log(Level.ERROR, msg, (String[]) null);
   }
 
   public boolean isErrorEnabled(Marker marker) {
     return slf4jLogger.isErrorEnabled(marker);
   }
 
-  public void error(Marker marker, String msg) {
-    slf4jLogger.error(marker, msg);
-    log(Level.ERROR, msg, (String[]) null);
+  private void log(Level logLevel, String msg, String... labels) {
+    boolean loggable = false;
+    switch (logLevel) {
+      case TRACE:
+        loggable = slf4jLogger.isTraceEnabled();
+        break;
+      case DEBUG:
+        loggable = slf4jLogger.isDebugEnabled();
+        break;
+      case WARN:
+        loggable = slf4jLogger.isWarnEnabled();
+        break;
+      case INFO:
+        loggable = slf4jLogger.isInfoEnabled();
+        break;
+      case ERROR:
+        loggable = slf4jLogger.isErrorEnabled();
+        break;
+      default:
+        loggable = slf4jLogger.isInfoEnabled();
+        break;
+    }
+    if (loggable && isRemoteLoggingEnabled()) {
+      LogEntry logEntry = buildLogEntry(logLevel, msg, labels);
+      invokeAsyncRestLogging(logEntry);
+    }
   }
-
-  public void error(Marker marker, String format, Object arg) {
-    slf4jLogger.error(marker, format, arg);
-    log(Level.ERROR, getFormattedMessage(format, arg), (String[]) null);
-  }
-
-  public void error(Marker marker, String format, Object arg1, Object arg2) {
-    slf4jLogger.error(marker, format, arg1, arg2);
-    log(Level.ERROR, getFormattedMessage(format, arg1, arg2), (String[]) null);
-  }
-
-  public void error(Marker marker, String format, Object... arguments) {
-    slf4jLogger.error(marker, format, arguments);
-    log(Level.ERROR, getFormattedMessage(format, arguments), (String[]) null);
-  }
-
-  public void error(Marker marker, String msg, Throwable t) {
-    slf4jLogger.error(marker, msg, t);
-    log(Level.ERROR, msg, (String[]) null);
-  }
-  
 
   private void initAsync() {
     asyncRestClient = new AsyncRestTemplate();
@@ -444,6 +447,5 @@ public class EdgeXLogger {
     FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
     return ft.getMessage();
   }
-
 
 }
