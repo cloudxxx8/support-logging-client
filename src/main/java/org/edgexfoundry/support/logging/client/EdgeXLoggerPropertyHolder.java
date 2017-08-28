@@ -15,6 +15,7 @@
  * @author: Jude Hung, Dell
  * @version: 1.0.0
  *******************************************************************************/
+
 package org.edgexfoundry.support.logging.client;
 
 import javax.annotation.PostConstruct;
