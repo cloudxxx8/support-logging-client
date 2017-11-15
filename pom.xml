@@ -22,14 +22,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.edgexfoundry</groupId>
 	<artifactId>support-logging-client</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.5.0-SNAPSHOT</version>
 	<name>EdgeX Foundry Support Logging Client Library</name>
 	<description>EdgeX Foundry client library for calling on Support Logging </description>
 
 	<properties>
-		<support-domain.version>0.2.0-SNAPSHOT</support-domain.version>
-		<core-exception.version>0.2.0-SNAPSHOT</core-exception.version>
-		<core-test.version>0.2.0-SNAPSHOT</core-test.version>
+		<support-domain.version>0.5.0-SNAPSHOT</support-domain.version>
+		<core-exception.version>0.5.0-SNAPSHOT</core-exception.version>
+		<core-test.version>0.5.0-SNAPSHOT</core-test.version>
 		<spring.cloud.version>Brixton.SR5</spring.cloud.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<junit.version>4.12</junit.version>
